@@ -57,7 +57,7 @@ attendance.save().then(()=>{console.log("success");res.send("success idiot")})
 
 //Global API for All events
 app.get('/attendance/listOfEvents',(req,res)=>{
-    eventDetails.find({},'eventName',function(err,docs){
+    eventDetails.find({},'',function(err,docs){
         console.log(docs.length,docs)
         var count=docs.length
         res.send({docs,count})
