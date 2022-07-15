@@ -3,9 +3,11 @@ const express = require('express')
 const mongoose = require ('mongoose')
 const { find } = require('./models/eventSchema')
 const app = express()
+const cors=require('cors')
 const eventDetails=require('./models/eventSchema')
 const attendanceRegister=require('./models/userAttendanceSchema')
 app.use(express.json())
+app.use(cors())
 //models
 // const eventSchema = new mongoose.Schema({
 //     eventName:String,
@@ -56,12 +58,21 @@ attendance.save().then(()=>{console.log("success");res.send("success idiot")})
 //Global API for All events
 app.get('/attendance/listOfEvents',(req,res)=>{
     eventDetails.find({},'eventName',function(err,docs){
-        console.log(docs.length)
+        console.log(docs.length,docs)
         var count=docs.length
         res.send({docs,count})
     })
 })
 //
 //API to fetch UNCompleted event
+app.get('/attendance/unCompleted',(req,res)=>{
+    eventDetails.find({Completed:false},'',function(err,docs){
+        console.log(docs)
+        var unCompletedCount=docs.length
+        res.send({docs,unCompletedCount})
+    })
+})
+//
+
 
 app.listen(5000)
